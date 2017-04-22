@@ -1,0 +1,174 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/elgs/dns-zonefile#readme"
+
+    >dns-zonefile (v0.2.2)</a>
+</h1>
+<h4>A DNS zone file parser and generator.</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.dns-zonefile">module dns-zonefile</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.dns-zonefile.generate">
+            function <span class="apidocSignatureSpan">dns-zonefile.</span>generate
+            <span class="apidocSignatureSpan">(options, template)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.dns-zonefile.parse">
+            function <span class="apidocSignatureSpan">dns-zonefile.</span>parse
+            <span class="apidocSignatureSpan">(text)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.dns-zonefile" id="apidoc.module.dns-zonefile">module dns-zonefile</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.dns-zonefile.generate" id="apidoc.element.dns-zonefile.generate">
+        function <span class="apidocSignatureSpan">dns-zonefile.</span>generate
+        <span class="apidocSignatureSpan">(options, template)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">generate = function (options, template) {
+    template = template || defaultTemplate;
+    template = process$ORIGIN(options[&#x27;$origin&#x27;], template);
+    template = process$TTL(options[&#x27;$ttl&#x27;], template);
+    template = processSOA(options[&#x27;soa&#x27;], template);
+    template = processNS(options[&#x27;ns&#x27;] || [], template);
+    template = processA(options[&#x27;a&#x27;] || [], template);
+    template = processAAAA(options[&#x27;aaaa&#x27;] || [], template);
+    template = processCNAME(options[&#x27;cname&#x27;] || [], template);
+    template = processMX(options[&#x27;mx&#x27;] || [], template);
+    template = processPTR(options[&#x27;ptr&#x27;] || [], template);
+    template = processTXT(options[&#x27;txt&#x27;] || [], template);
+    template = processSRV(options[&#x27;srv&#x27;] || [], template);
+    template = processSPF(options[&#x27;spf&#x27;] || [], template);
+    template = processValues(options, template);
+    return template.replace(/\n{2,}/gim, &#x27;\n\n&#x27;);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+_dns-zonefile_ can also be used as a module. Simply use `require()` to include
+it, then invoke its `generate()` function as shown in the following example:
+
+```javascript
+var zonefile = require(&#x27;dns-zonefile&#x27;);
+var options = require(&#x27;./zonefile_forward.json&#x27;);
+var output = zonefile.<span class="apidocCodeKeywordSpan">generate</span>(options);
+console.log(output);
+```
+
+`options` can either be a parsed JSON object as shown above, or a regular
+Javascript object containing the same required fields.
+
+It is also possible to parse a zone file to JSON by invoking its `parse()`
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.dns-zonefile.parse" id="apidoc.element.dns-zonefile.parse">
+        function <span class="apidocSignatureSpan">dns-zonefile.</span>parse
+        <span class="apidocSignatureSpan">(text)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">parse = function (text) {
+    text = removeComments(text);
+    text = flatten(text);
+    return parseRRs(text);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+It is also possible to parse a zone file to JSON by invoking its `parse()`
+function as shown in the following example:
+
+```javascript
+var zonefile = require(&#x27;dns-zonefile&#x27;);
+var text = fs.readFileSync(&#x27;./zonefile_forward.txt&#x27;, &#x27;utf8&#x27;);
+output = zonefile.<span class="apidocCodeKeywordSpan">parse</span>(text);
+console.log(JSON.stringify(output));
+```
+
+#License
+ISC License (ISC)
+
+Copyright (c) 2014, Elgs Qian Chen
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
